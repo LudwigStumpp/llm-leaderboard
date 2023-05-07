@@ -60,6 +60,7 @@ def setup_basic():
     st.set_page_config(
         page_title=title,
         page_icon="🏆",
+        layout="wide",
     )
     st.title(title)
 
@@ -74,6 +75,10 @@ def setup_basic():
 def setup_table():
     csv_table = grab_file_from_repo(REPO_URL, "leaderboard.csv")
     df = pd.read_csv(io.StringIO(csv_table), index_col=0)
+    df = df.sort_index(ascending=True)
+    df = df.replace(r"^\s*$", float("nan"), regex=True)
+    df = df.astype(float, errors="ignore")
+
     st.markdown("### Leaderboard")
     st.dataframe(filter_dataframe(df))
 
@@ -91,7 +96,7 @@ def setup_benchmarks():
         f"Name: {selected_benchmark} ",
     ]
     for key in df_selected.keys():
-        text.append(f"{key}: {df_selected[key]}")
+        text.append(f"{key}: {df_selected[key]} ")
     st.markdown("\n".join(text))
 
 
