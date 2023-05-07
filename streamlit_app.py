@@ -100,6 +100,23 @@ def setup_benchmarks():
     st.markdown("\n".join(text))
 
 
+def setup_sources():
+    csv_table = grab_file_from_repo(REPO_URL, "sources.csv")
+    df = pd.read_csv(io.StringIO(csv_table), index_col=0)
+    df = df.sort_index(ascending=True)
+
+    st.markdown("### Sources")
+
+    selected_source = st.selectbox("Select a source to learn more:", df.index.unique())
+    df_selected = df.loc[selected_source]
+    text = [
+        f"Author: {selected_source} ",
+    ]
+    for key in df_selected.keys():
+        text.append(f"{key}: {df_selected[key]} ")
+    st.markdown("\n".join(text))
+
+
 def setup_footer():
     st.markdown(
         """
@@ -113,6 +130,7 @@ def main():
     setup_basic()
     setup_table()
     setup_benchmarks()
+    setup_sources()
     setup_footer()
 
 
