@@ -21,6 +21,39 @@ def grab_file_from_repo(repo_url: str, filename: str) -> str:
     return requests.get(url).text
 
 
+def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Adds a UI on top of a dataframe to let viewers filter columns
+
+    Modified from https://blog.streamlit.io/auto-generate-a-dataframe-filtering-ui-in-streamlit-with-filter_dataframe/
+
+    Args:
+        df (pd.DataFrame): Original dataframe
+
+    Returns:
+        pd.DataFrame: Filtered dataframe
+    """
+    modify = st.checkbox("Add filters")
+
+    if not modify:
+        return df
+
+    df = df.copy()
+
+    modification_container = st.container()
+
+    with modification_container:
+        to_filter_index = st.multiselect("Filter rows on", df.index)
+        if to_filter_index:
+            df = pd.DataFrame(df.loc[to_filter_index])
+
+        to_filter_columns = st.multiselect("Filter columns on", df.columns)
+        if to_filter_columns:
+            df = pd.DataFrame(df[to_filter_columns])
+
+    return df
+
+
 def setup_basic():
     title = "LLM-Leaderboard"
 
@@ -41,7 +74,25 @@ def setup_basic():
 def setup_table():
     csv_table = grab_file_from_repo(REPO_URL, "leaderboard.csv")
     df = pd.read_csv(io.StringIO(csv_table), index_col=0)
-    st.dataframe(df)
+    st.markdown("### Leaderboard")
+    st.dataframe(filter_dataframe(df))
+
+
+def setup_benchmarks():
+    csv_table = grab_file_from_repo(REPO_URL, "benchmarks.csv")
+    df = pd.read_csv(io.StringIO(csv_table), index_col=0)
+    df = df.sort_index(ascending=True)
+
+    st.markdown("### Covered Benchmarks")
+
+    selected_benchmark = st.selectbox("Select a benchmark to learn more:", df.index.unique())
+    df_selected = df.loc[selected_benchmark]
+    text = [
+        f"Name: {selected_benchmark} ",
+    ]
+    for key in df_selected.keys():
+        text.append(f"{key}: {df_selected[key]}")
+    st.markdown("\n".join(text))
 
 
 def setup_footer():
@@ -56,6 +107,7 @@ def setup_footer():
 def main():
     setup_basic()
     setup_table()
+    setup_benchmarks()
     setup_footer()
 
 
