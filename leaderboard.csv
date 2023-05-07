@@ -1,0 +1,10 @@
+Model Name              ,Chatbot Arena Elo (llmsys)
+alpaca-13b              ,                      1008
+chatglm-6b              ,                       985
+dolly-v2-12b            ,                       944
+fastchat-t5-3b          ,                       951
+koala-13b               ,                      1082
+llama-13b               ,                       932
+stablelm-tuned-alpha-7b ,                       858
+vicuna-13b              ,                      1169
+oasst-pythia-12b        ,                      1065
