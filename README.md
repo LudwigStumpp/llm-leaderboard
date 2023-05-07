@@ -1,4 +1,4 @@
-# llm-leaderboard
+# 🏆 llm-leaderboard
 A joint community effort to create one central leaderboard for LLMs. Contributions and corrections welcome!
 
 ## Leaderboard
