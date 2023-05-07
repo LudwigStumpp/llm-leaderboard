@@ -151,11 +151,11 @@ def setup_benchmarks(readme: str):
     selected_benchmark = st.selectbox("Select a benchmark to learn more:", df_benchmarks.index.unique())
     df_selected = df_benchmarks.loc[selected_benchmark]
     text = [
-        f"Name: {selected_benchmark} ",
+        f"Name: {selected_benchmark}",
     ]
     for key in df_selected.keys():
         text.append(f"{key}: {df_selected[key]} ")
-    st.markdown("\n".join(text))
+    st.markdown("  \n".join(text))
 
 
 def setup_sources(readme: str):
@@ -167,11 +167,11 @@ def setup_sources(readme: str):
     selected_source = st.selectbox("Select a source to learn more:", df_sources.index.unique())
     df_selected = df_sources.loc[selected_source]
     text = [
-        f"Author: {selected_source} ",
+        f"Author: {selected_source}",
     ]
     for key in df_selected.keys():
-        text.append(f"{key}: {df_selected[key]} ")
-    st.markdown("\n".join(text))
+        text.append(f"{key}: {df_selected[key]}")
+    st.markdown("  \n".join(text))
 
 
 def setup_footer():
