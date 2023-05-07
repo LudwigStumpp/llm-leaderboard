@@ -43,11 +43,11 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     modification_container = st.container()
 
     with modification_container:
-        to_filter_index = st.multiselect("Filter rows on", df.index)
+        to_filter_index = st.multiselect("Filter by model:", df.index)
         if to_filter_index:
             df = pd.DataFrame(df.loc[to_filter_index])
 
-        to_filter_columns = st.multiselect("Filter columns on", df.columns)
+        to_filter_columns = st.multiselect("Filter by benchmark:", df.columns)
         if to_filter_columns:
             df = pd.DataFrame(df[to_filter_columns])
 
