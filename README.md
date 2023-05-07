@@ -13,8 +13,8 @@ We are always happy for contributions! You can contribute by the following:
 
 - table work:
     - filling missing entries
-    - adding a new model as a new row in `leaderboard.csv`, add the source of the evaluation to `sources.csv`
-    - adding a new benchmark as a new column in `leaderboard.csv` and add the benchmark to `benchmarks.csv`
+    - adding a new model as a new row in `data/leaderboard.csv`, add the source of the evaluation to `data/sources.csv`
+    - adding a new benchmark as a new column in `data/leaderboard.csv` and add the benchmark to `data/benchmarks.csv`
 - code work:
     - improving the existing code
     - requesting and implementing new features

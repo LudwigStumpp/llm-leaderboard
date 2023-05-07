@@ -1,10 +1,11 @@
-import io
-
 import pandas as pd
 import requests
 import streamlit as st
 
 REPO_URL = "https://github.com/LudwigStumpp/llm-leaderboard"
+LEADERBOARD_PATH = "data/leaderboard.csv"
+BENCHMARKS_PATH = "data/benchmarks.csv"
+SOURCES_PATH = "data/sources.csv"
 
 
 def grab_file_from_repo(repo_url: str, filename: str) -> str:
@@ -73,8 +74,7 @@ def setup_basic():
 
 
 def setup_table():
-    csv_table = grab_file_from_repo(REPO_URL, "leaderboard.csv")
-    df = pd.read_csv(io.StringIO(csv_table), index_col=0)
+    df = pd.read_csv(LEADERBOARD_PATH, index_col=0)
     df = df.sort_index(ascending=True)
     df = df.replace(r"^\s*$", float("nan"), regex=True)
     df = df.astype(float, errors="ignore")
@@ -84,8 +84,7 @@ def setup_table():
 
 
 def setup_benchmarks():
-    csv_table = grab_file_from_repo(REPO_URL, "benchmarks.csv")
-    df = pd.read_csv(io.StringIO(csv_table), index_col=0)
+    df = pd.read_csv(BENCHMARKS_PATH, index_col=0)
     df = df.sort_index(ascending=True)
 
     st.markdown("### Covered Benchmarks")
@@ -101,8 +100,7 @@ def setup_benchmarks():
 
 
 def setup_sources():
-    csv_table = grab_file_from_repo(REPO_URL, "sources.csv")
-    df = pd.read_csv(io.StringIO(csv_table), index_col=0)
+    df = pd.read_csv(SOURCES_PATH, index_col=0)
     df = df.sort_index(ascending=True)
 
     st.markdown("### Sources of Above Figures")
