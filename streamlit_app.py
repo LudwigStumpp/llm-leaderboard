@@ -105,7 +105,7 @@ def setup_sources():
     df = pd.read_csv(io.StringIO(csv_table), index_col=0)
     df = df.sort_index(ascending=True)
 
-    st.markdown("### Sources")
+    st.markdown("### Sources of Above Figures")
 
     selected_source = st.selectbox("Select a source to learn more:", df.index.unique())
     df_selected = df.loc[selected_source]
