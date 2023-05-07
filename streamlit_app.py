@@ -21,7 +21,8 @@ def extract_table_and_format_from_markdown_text(markdown_table: str) -> pd.DataF
         .dropna(axis=1, how="all")  # drop empty columns
         .iloc[1:]  # drop first row which is the "----" separator of the original markdown table
         .sort_index(ascending=True)
-        .replace(r"^\s*$", float("nan"), regex=True)
+        .apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        .replace("", float("NaN"))
         .astype(float, errors="ignore")
     )
 
@@ -85,7 +86,7 @@ def remove_markdown_links(text: str) -> str:
     return text
 
 
-def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+def filter_dataframe(df: pd.DataFrame, ignore_columns: list[str] | None = None) -> pd.DataFrame:
     """
     Adds a UI on top of a dataframe to let viewers filter columns
 
@@ -93,6 +94,7 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
     Args:
         df (pd.DataFrame): Original dataframe
+        ignore_columns (list[str], optional): Columns to ignore. Defaults to None.
 
     Returns:
         pd.DataFrame: Filtered dataframe
@@ -104,6 +106,9 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
     df = df.copy()
 
+    if ignore_columns is None:
+        ignore_columns = []
+
     modification_container = st.container()
 
     with modification_container:
@@ -111,9 +116,9 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         if to_filter_index:
             df = pd.DataFrame(df.loc[to_filter_index])
 
-        to_filter_columns = st.multiselect("Filter by benchmark:", df.columns)
+        to_filter_columns = st.multiselect("Filter by benchmark:", [c for c in df.columns if c not in ignore_columns])
         if to_filter_columns:
-            df = pd.DataFrame(df[to_filter_columns])
+            df = pd.DataFrame(df[ignore_columns + to_filter_columns])
 
     return df
 
@@ -138,9 +143,10 @@ def setup_leaderboard(readme: str):
     leaderboard_table = extract_markdown_table_from_multiline(readme, table_headline="## Leaderboard")
     leaderboard_table = remove_markdown_links(leaderboard_table)
     df_leaderboard = extract_table_and_format_from_markdown_text(leaderboard_table)
+    df_leaderboard["Commercial Use?"] = df_leaderboard["Commercial Use?"].map({"yes": 1, "no": 0}).astype(bool)
 
     st.markdown("## Leaderboard")
-    st.dataframe(filter_dataframe(df_leaderboard))
+    st.dataframe(filter_dataframe(df_leaderboard, ignore_columns=["Commercial Use?"]))
 
 
 def setup_benchmarks(readme: str):
@@ -168,6 +174,14 @@ def setup_sources():
     )
 
 
+def setup_disclaimer():
+    st.markdown("## Disclaimer")
+    st.markdown(
+        "Above information may be wrong. If you want to use a published model for commercial use, please contact a "
+        "lawyer."
+    )
+
+
 def setup_footer():
     st.markdown(
         """
@@ -186,6 +200,7 @@ def main():
     setup_leaderboard(readme)
     setup_benchmarks(readme)
     setup_sources()
+    setup_disclaimer()
     setup_footer()
 
 
