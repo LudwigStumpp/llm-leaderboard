@@ -1,6 +1,8 @@
+import io
+import re
+
 import pandas as pd
 import streamlit as st
-import io
 
 
 def extract_table_and_format_from_markdown_text(markdown_table: str) -> pd.DataFrame:
@@ -59,6 +61,27 @@ def extract_markdown_table_from_multiline(multiline: str, table_headline: str, n
     return "".join(table)
 
 
+def remove_markdown_links(text: str) -> str:
+    """Modifies a markdown text to remove all markdown links.
+    Example: [DISPLAY](LINK) to DISPLAY
+    First find all markdown links with regex.
+    Then replace them with: $1
+    Args:
+        text (str): Markdown text containing markdown links
+    Returns:
+        str: Markdown text without markdown links.
+    """
+
+    # find all markdown links
+    markdown_links = re.findall(r"\[([^\]]+)\]\(([^)]+)\)", text)
+
+    # remove link keep display text
+    for display, link in markdown_links:
+        text = text.replace(f"[{display}]({link})", display)
+
+    return text
+
+
 def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """
     Adds a UI on top of a dataframe to let viewers filter columns
@@ -112,6 +135,7 @@ def setup_basic():
 
 def setup_leaderboard(readme: str):
     leaderboard_table = extract_markdown_table_from_multiline(readme, table_headline="## Leaderboard")
+    leaderboard_table = remove_markdown_links(leaderboard_table)
     df_leaderboard = extract_table_and_format_from_markdown_text(leaderboard_table)
 
     st.markdown("## Leaderboard")
