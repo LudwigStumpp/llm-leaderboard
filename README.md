@@ -1,7 +1,8 @@
 # 🏆 llm-leaderboard
 
 A joint community effort to create one central leaderboard for LLMs. Contributions and corrections welcome!
-Sources for the numbers are
+
+Sources for the numbers are added as links to the table.
 
 ## Interactive Dashboard
 
