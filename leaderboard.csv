@@ -1,20 +1,20 @@
-Model Name              ,Chatbot Arena Elo (lmsys) ,LAMBADA
-alpaca-13b              ,                     1008 ,   
-cerebras-7b             ,                          ,  0.636
-cerebras-13b            ,                          ,  0.635
-chatglm-6b              ,                      985 ,   
-dolly-v2-12b            ,                      944 ,   
-fastchat-t5-3b          ,                      951 ,   
-gpt-neox-20b            ,                          ,  0.719
-gptj-6b                 ,                          ,  0.683
-koala-13b               ,                     1082 ,   
-llama-7b                ,                          ,  0.738
-llama-13b               ,                      932 ,   
-mpt-7b                  ,                          ,  0.702
-opt-7b                  ,                          ,  0.677
-opt-13b                 ,                          ,  0.692
-stablelm-base-alpha-7b  ,                          ,  0.533
-stablelm-tuned-alpha-7b ,                      858 ,   
-vicuna-13b              ,                     1169 ,   
-oasst-pythia-7b         ,                          ,  0.667
-oasst-pythia-12b        ,                     1065 ,  0.704
+Model Name              ,Chatbot Arena Elo (lmsys) ,LAMBADA ,TriviaQA
+alpaca-13b              ,                     1008 ,        ,
+cerebras-7b             ,                          ,  0.636 ,0.141
+cerebras-13b            ,                          ,  0.635 ,0.146
+chatglm-6b              ,                      985 ,        ,
+dolly-v2-12b            ,                      944 ,        ,
+fastchat-t5-3b          ,                      951 ,        ,
+gpt-neox-20b            ,                          ,  0.719 ,0.347
+gptj-6b                 ,                          ,  0.683 ,0.234
+koala-13b               ,                     1082 ,        ,
+llama-7b                ,                          ,  0.738 ,0.443
+llama-13b               ,                      932 ,        ,
+mpt-7b                  ,                          ,  0.702 ,0.343
+opt-7b                  ,                          ,  0.677 ,0.227
+opt-13b                 ,                          ,  0.692 ,0.282
+stablelm-base-alpha-7b  ,                          ,  0.533 ,0.049
+stablelm-tuned-alpha-7b ,                      858 ,        ,
+vicuna-13b              ,                     1169 ,        ,
+oasst-pythia-7b         ,                          ,  0.667 ,0.198
+oasst-pythia-12b        ,                     1065 ,  0.704 ,0.233
