@@ -1,7 +1,10 @@
 # 🏆 llm-leaderboard
 
 A joint community effort to create one central leaderboard for LLMs. Contributions and corrections welcome!
-Visit the interactive leaderboard at https://llm-leaderboard.streamlit.app/.
+
+## Interactive Dashboard
+
+https://llm-leaderboard.streamlit.app/
 
 ## How to Contribute
 
@@ -9,8 +12,8 @@ We are always happy for contributions! You can contribute by the following:
 
 - table work:
     - filling missing entries
-    - adding a new model as a new row to the leaderboard and add the source of the evaluation to the sources table
-    - adding a new benchmark as a new column in the leaderboard and add the benchmark to the benchmarks table
+    - adding a new model as a new row to the leaderboard and add the source of the evaluation to the sources table. Please keep alphabetic order.
+    - adding a new benchmark as a new column in the leaderboard and add the benchmark to the benchmarks table. Please keep alphabetic order.
 - code work:
     - improving the existing code
     - requesting and implementing new features
