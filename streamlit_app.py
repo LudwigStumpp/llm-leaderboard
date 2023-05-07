@@ -26,6 +26,7 @@ def extract_table_and_format_from_markdown_text(markdown_table: str) -> pd.DataF
     # remove whitespace from column names and index
     df.columns = df.columns.str.strip()
     df.index = df.index.str.strip()
+    df.index.name = df.index.name.strip()
 
     return df
 
