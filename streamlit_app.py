@@ -4,6 +4,8 @@ import re
 import pandas as pd
 import streamlit as st
 
+GITHUB_URL = "https://github.com/LudwigStumpp/llm-leaderboard"
+
 
 def extract_table_and_format_from_markdown_text(markdown_table: str) -> pd.DataFrame:
     """Extracts a table from a markdown text and formats it as a pandas DataFrame.
@@ -127,10 +129,8 @@ def setup_basic():
     st.title(title)
 
     st.markdown(
-        """
-        A joint community effort to create one central leaderboard for LLMs.
-        Visit [llm-leaderboard](https://github.com/LudwigStumpp/llm-leaderboard) to contribute.
-        """
+        "A joint community effort to create one central leaderboard for LLMs."
+        f" Visit [llm-leaderboard]({GITHUB_URL}) to contribute.",
     )
 
 
@@ -159,20 +159,13 @@ def setup_benchmarks(readme: str):
     st.markdown("  \n".join(text))
 
 
-def setup_sources(readme: str):
-    sources_table = extract_markdown_table_from_multiline(readme, table_headline="## Sources")
-    df_sources = extract_table_and_format_from_markdown_text(sources_table)
-
-    st.markdown("## Sources of Above Figures")
-
-    selected_source = st.selectbox("Select a source to learn more:", df_sources.index.unique())
-    df_selected = df_sources.loc[selected_source]
-    text = [
-        f"Author: {selected_source}",
-    ]
-    for key in df_selected.keys():
-        text.append(f"{key}: {df_selected[key]}")
-    st.markdown("  \n".join(text))
+def setup_sources():
+    st.markdown("## Sources")
+    st.markdown(
+        "The results of this leaderboard are collected from the individual papers and published results of the model "
+        "authors. If you are interested in the sources of each individual reported model value, please visit the "
+        f"[llm-leaderboard]({GITHUB_URL}) repository."
+    )
 
 
 def setup_footer():
@@ -192,7 +185,7 @@ def main():
 
     setup_leaderboard(readme)
     setup_benchmarks(readme)
-    setup_sources(readme)
+    setup_sources()
     setup_footer()
 
 
