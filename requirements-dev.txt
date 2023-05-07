@@ -1,3 +1,4 @@
 black
 flake
+isort
 mypy
