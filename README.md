@@ -81,6 +81,12 @@ If you are interested in an overview about open llms for commercial use and fine
 
 The results of this leaderboard are collected from the individual papers and published results of the model authors. For each reported value, the source is added as a link.
 
+Special thanks to the following pages:
+- [MosaicML - Model benchmarks](https://www.mosaicml.com/blog/mpt-7b)
+- [lmsys.org - Chatbot Arena benchmarks](https://lmsys.org/blog/2023-05-03-arena/)
+- [Papers With Code](https://paperswithcode.com/)
+- [Stanford HELM](https://crfm.stanford.edu/helm/latest/)
+
 ## Disclaimer
 
 Above information may be wrong. If you want to use a published model for commercial use, please contact a lawyer.

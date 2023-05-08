@@ -172,6 +172,15 @@ def setup_sources():
         "authors. If you are interested in the sources of each individual reported model value, please visit the "
         f"[llm-leaderboard]({GITHUB_URL}) repository."
     )
+    st.markdown(
+        """
+    Special thanks to the following pages:
+    - [MosaicML - Model benchmarks](https://www.mosaicml.com/blog/mpt-7b)
+    - [lmsys.org - Chatbot Arena benchmarks](https://lmsys.org/blog/2023-05-03-arena/)
+    - [Papers With Code](https://paperswithcode.com/)
+    - [Stanford HELM](https://crfm.stanford.edu/helm/latest/)
+    """
+    )
 
 
 def setup_disclaimer():
