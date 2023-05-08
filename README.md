@@ -6,18 +6,6 @@ A joint community effort to create one central leaderboard for LLMs. Contributio
 
 https://llm-leaderboard.streamlit.app/
 
-## How to Contribute
-
-We are always happy for contributions! You can contribute by the following:
-
-- table work (don't forget the links):
-    - filling missing entries
-    - adding a new model as a new row to the leaderboard. Please keep alphabetic order.
-    - adding a new benchmark as a new column in the leaderboard and add the benchmark to the benchmarks table. Please keep alphabetic order.
-- code work:
-    - improving the existing code
-    - requesting and implementing new features
-
 ## Leaderboard
 
 | Model Name                                                                             | Commercial Use? | Chatbot Arena Elo                                | HumanEval-Python (pass@1)                                                      | LAMBADA (zero-shot)                           | MMLU (zero-shot)                              | TriviaQA (zero-shot)                          |
@@ -67,6 +55,22 @@ We are always happy for contributions! You can contribute by the following:
 | LAMBADA           | Paperno et al.   | https://arxiv.org/abs/1606.06031         | "The LAMBADA evaluates the capabilities of computational models for text understanding by means of a word prediction task. LAMBADA is a collection of narrative passages sharing the characteristic that human subjects are able to guess their last word if they are exposed to the whole passage, but not if they only see the last sentence preceding the target word. To succeed on LAMBADA, computational models cannot simply rely on local context, but must be able to keep track of information in the broader discourse." (Source: https://huggingface.co/datasets/lambada) |
 | MMLU              | Hendrycks et al. | https://github.com/hendrycks/test        | "The benchmark covers 57 subjects across STEM, the humanities, the social sciences, and more. It ranges in difficulty from an elementary level to an advanced professional level, and it tests both world knowledge and problem solving ability. Subjects range from traditional areas, such as mathematics and history, to more specialized areas like law and ethics. The granularity and breadth of the subjects makes the benchmark ideal for identifying a model’s blind spots." (Source: "https://paperswithcode.com/dataset/mmlu")                                             |
 | TriviaQA          | Joshi et al.     | https://arxiv.org/abs/1705.03551v2       | "We present TriviaQA, a challenging reading comprehension dataset containing over 650K question-answer-evidence triples. TriviaQA includes 95K question-answer pairs authored by trivia enthusiasts and independently gathered evidence documents, six per question on average, that provide high quality distant supervision for answering the questions." (Source: https://arxiv.org/abs/1705.03551v2)                                                                                                                                                                              |
+
+## How to Contribute
+
+We are always happy for contributions! You can contribute by the following:
+
+- table work (don't forget the links):
+    - filling missing entries
+    - adding a new model as a new row to the leaderboard. Please keep alphabetic order.
+    - adding a new benchmark as a new column in the leaderboard and add the benchmark to the benchmarks table. Please keep alphabetic order.
+- code work:
+    - improving the existing code
+    - requesting and implementing new features
+
+## More Open LLMs
+
+If you are interested in an overview about open llms for commercial use and finetuning, check out the [open-llms](https://github.com/eugeneyan/open-llms) repository.
 
 ## Sources
 
