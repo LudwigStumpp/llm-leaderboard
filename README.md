@@ -78,15 +78,12 @@ We are always happy for contributions! You can contribute by the following:
 
 ## Future Ideas
 
-- add model year
-- add "export current view as .csv" button to streamlit demo
+- (TBD) add model year
 - (TBD) add model details:
     - #params
     - #tokens seen during training
     - length context window
     - architecture type (transformer-decoder, transformer-encoder, transformer-encoder-decoder, ...)
-- if additional model details, allow to hide them in the interactive streamlit dashboard with a checkbox?
-- (TBD) improvements on the filtering in the streamlit demo, maybe filter by value range?
 
 ## More Open LLMs
 

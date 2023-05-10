@@ -4,8 +4,7 @@ from collections.abc import Iterable
 
 import pandas as pd
 import streamlit as st
-from pandas.api.types import (is_bool_dtype, is_datetime64_any_dtype,
-                              is_numeric_dtype)
+from pandas.api.types import is_bool_dtype, is_datetime64_any_dtype, is_numeric_dtype
 
 GITHUB_URL = "https://github.com/LudwigStumpp/llm-leaderboard"
 
@@ -218,6 +217,22 @@ def setup_leaderboard(readme: str):
         df_leaderboard = filter_dataframe_by_column_values(df_leaderboard)
 
     st.dataframe(df_leaderboard)
+
+    st.download_button(
+        "Download current selection as .html",
+        df_leaderboard.to_html().encode("utf-8"),
+        "leaderboard.html",
+        "text/html",
+        key="download-html",
+    )
+
+    st.download_button(
+        "Download current selection as .csv",
+        df_leaderboard.to_csv().encode("utf-8"),
+        "leaderboard.csv",
+        "text/csv",
+        key="download-csv",
+    )
 
 
 def setup_benchmarks(readme: str):
