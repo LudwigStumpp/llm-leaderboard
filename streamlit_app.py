@@ -146,7 +146,7 @@ def setup_leaderboard(readme: str):
     df_leaderboard["Commercial Use?"] = df_leaderboard["Commercial Use?"].map({"yes": 1, "no": 0}).astype(bool)
 
     st.markdown("## Leaderboard")
-    st.dataframe(filter_dataframe(df_leaderboard, ignore_columns=["Commercial Use?"]))
+    st.dataframe(filter_dataframe(df_leaderboard, ignore_columns=["Commercial Use?", "Publisher"]))
 
 
 def setup_benchmarks(readme: str):
