@@ -4,7 +4,8 @@ from collections.abc import Iterable
 
 import pandas as pd
 import streamlit as st
-from pandas.api.types import is_datetime64_any_dtype, is_numeric_dtype
+from pandas.api.types import (is_bool_dtype, is_datetime64_any_dtype,
+                              is_numeric_dtype)
 
 GITHUB_URL = "https://github.com/LudwigStumpp/llm-leaderboard"
 
@@ -142,7 +143,11 @@ def filter_dataframe_by_column_values(df: pd.DataFrame) -> pd.DataFrame:
         left, right = st.columns((1, 20))
 
         for column in to_filter_columns:
-            if is_numeric_dtype(df[column]):
+            if is_bool_dtype(df[column]):
+                user_bool_input = right.checkbox(f"{column}", value=True)
+                df = df[df[column] == user_bool_input]
+
+            elif is_numeric_dtype(df[column]):
                 _min = float(df[column].min())
                 _max = float(df[column].max())
 
