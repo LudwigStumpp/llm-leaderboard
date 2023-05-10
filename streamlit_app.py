@@ -1,8 +1,10 @@
 import io
 import re
+from collections.abc import Iterable
 
 import pandas as pd
 import streamlit as st
+from pandas.api.types import is_datetime64_any_dtype, is_numeric_dtype
 
 GITHUB_URL = "https://github.com/LudwigStumpp/llm-leaderboard"
 
@@ -86,10 +88,11 @@ def remove_markdown_links(text: str) -> str:
     return text
 
 
-def filter_dataframe(df: pd.DataFrame, ignore_columns: list[str] | None = None) -> pd.DataFrame:
+def filter_dataframe_by_row_and_columns(df: pd.DataFrame, ignore_columns: list[str] | None = None) -> pd.DataFrame:
     """
-    Adds a UI on top of a dataframe to let viewers filter columns
+    Filter dataframe by the rows and columns to display.
 
+    This does not select based on the values in the dataframe, but rather on the index and columns.
     Modified from https://blog.streamlit.io/auto-generate-a-dataframe-filtering-ui-in-streamlit-with-filter_dataframe/
 
     Args:
@@ -99,11 +102,6 @@ def filter_dataframe(df: pd.DataFrame, ignore_columns: list[str] | None = None) 
     Returns:
         pd.DataFrame: Filtered dataframe
     """
-    modify = st.checkbox("Add filters")
-
-    if not modify:
-        return df
-
     df = df.copy()
 
     if ignore_columns is None:
@@ -119,6 +117,67 @@ def filter_dataframe(df: pd.DataFrame, ignore_columns: list[str] | None = None) 
         to_filter_columns = st.multiselect("Filter by benchmark:", [c for c in df.columns if c not in ignore_columns])
         if to_filter_columns:
             df = pd.DataFrame(df[ignore_columns + to_filter_columns])
+
+    return df
+
+
+def filter_dataframe_by_column_values(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Filter dataframe by the values in the dataframe.
+
+    Modified from https://blog.streamlit.io/auto-generate-a-dataframe-filtering-ui-in-streamlit-with-filter_dataframe/
+
+    Args:
+        df (pd.DataFrame): Original dataframe
+
+    Returns:
+        pd.DataFrame: Filtered dataframe
+    """
+    df = df.copy()
+
+    modification_container = st.container()
+
+    with modification_container:
+        to_filter_columns = st.multiselect("Filter results on:", df.columns)
+        left, right = st.columns((1, 20))
+
+        for column in to_filter_columns:
+            if is_numeric_dtype(df[column]):
+                _min = float(df[column].min())
+                _max = float(df[column].max())
+
+                if (_min != _max) and pd.notna(_min) and pd.notna(_max):
+                    step = 0.01
+                    user_num_input = right.slider(
+                        f"Values for {column}:",
+                        min_value=round(_min - step, 2),
+                        max_value=round(_max + step, 2),
+                        value=(_min, _max),
+                        step=step,
+                    )
+                    df = df[df[column].between(*user_num_input)]
+
+            elif is_datetime64_any_dtype(df[column]):
+                user_date_input = right.date_input(
+                    f"Values for {column}:",
+                    value=(
+                        df[column].min(),
+                        df[column].max(),
+                    ),
+                )
+                if isinstance(user_date_input, Iterable) and len(user_date_input) == 2:
+                    user_date_input_datetime = tuple(map(pd.to_datetime, user_date_input))
+                    start_date, end_date = user_date_input_datetime
+                    df = df.loc[df[column].between(start_date, end_date)]
+
+            else:
+                selected_values = right.multiselect(
+                    f"Values for {column}:",
+                    df[column].unique(),
+                )
+
+                if selected_values:
+                    df = df[df[column].isin(selected_values)]
 
     return df
 
@@ -146,7 +205,14 @@ def setup_leaderboard(readme: str):
     df_leaderboard["Commercial Use?"] = df_leaderboard["Commercial Use?"].map({"yes": 1, "no": 0}).astype(bool)
 
     st.markdown("## Leaderboard")
-    st.dataframe(filter_dataframe(df_leaderboard, ignore_columns=["Commercial Use?", "Publisher"]))
+    modify = st.checkbox("Add filters")
+    if modify:
+        df_leaderboard = filter_dataframe_by_row_and_columns(
+            df_leaderboard, ignore_columns=["Commercial Use?", "Publisher"]
+        )
+        df_leaderboard = filter_dataframe_by_column_values(df_leaderboard)
+
+    st.dataframe(df_leaderboard)
 
 
 def setup_benchmarks(readme: str):
