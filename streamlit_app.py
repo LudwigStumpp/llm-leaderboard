@@ -110,11 +110,13 @@ def filter_dataframe_by_row_and_columns(df: pd.DataFrame, ignore_columns: list[s
     modification_container = st.container()
 
     with modification_container:
-        to_filter_index = st.multiselect("Filter by model:", df.index)
+        to_filter_index = st.multiselect("Filter by model:", sorted(df.index))
         if to_filter_index:
             df = pd.DataFrame(df.loc[to_filter_index])
 
-        to_filter_columns = st.multiselect("Filter by benchmark:", [c for c in df.columns if c not in ignore_columns])
+        to_filter_columns = st.multiselect(
+            "Filter by benchmark:", sorted([c for c in df.columns if c not in ignore_columns])
+        )
         if to_filter_columns:
             df = pd.DataFrame(df[ignore_columns + to_filter_columns])
 
@@ -177,7 +179,7 @@ def filter_dataframe_by_column_values(df: pd.DataFrame) -> pd.DataFrame:
             else:
                 selected_values = right.multiselect(
                     f"Values for {column}:",
-                    df[column].unique(),
+                    sorted(df[column].unique()),
                 )
 
                 if selected_values:
