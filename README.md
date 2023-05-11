@@ -4,7 +4,8 @@ A joint community effort to create one central leaderboard for LLMs. Contributio
 
 ## Interactive Dashboard
 
-https://llm-leaderboard.streamlit.app/
+https://llm-leaderboard.streamlit.app/ <br>
+https://huggingface.co/spaces/ludwigstumpp/llm-leaderboard
 
 ## Leaderboard
 
