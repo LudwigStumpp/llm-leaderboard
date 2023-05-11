@@ -11,7 +11,6 @@ fullWidth: true
 python_version: 3.10.10
 ---
 
-
 # 🏆 LLM-Leaderboard
 
 A joint community effort to create one central leaderboard for LLMs. Contributions and corrections welcome! <br>
