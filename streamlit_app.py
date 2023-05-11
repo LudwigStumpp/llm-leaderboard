@@ -217,6 +217,7 @@ def setup_leaderboard(readme: str):
             df_leaderboard, ignore_columns=["Commercial Use?", "Publisher"]
         )
         df_leaderboard = filter_dataframe_by_column_values(df_leaderboard)
+    df_leaderboard = df_leaderboard.dropna(axis=1, how="all")
 
     st.dataframe(df_leaderboard)
 
