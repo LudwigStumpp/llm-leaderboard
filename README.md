@@ -8,6 +8,7 @@ sdk_version: 1.19.0
 app_file: streamlit_app.py
 pinned: true
 fullWidth: true
+python_version: 3.10.10
 ---
 
 
