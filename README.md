@@ -1,3 +1,16 @@
+---
+title: LLM-Leaderboard
+emoji: 🏆
+colorFrom: grey
+colorTo: yellow
+sdk: streamlit
+sdk_version: 1.19.0
+app_file: streamlit_app.py
+pinned: true
+fullWidth: true
+---
+
+
 # 🏆 LLM-Leaderboard
 
 A joint community effort to create one central leaderboard for LLMs. Contributions and corrections welcome! <br>
