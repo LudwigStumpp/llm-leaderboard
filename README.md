@@ -1,8 +1,8 @@
 ---
 title: LLM-Leaderboard
 emoji: 🏆
-colorFrom: grey
-colorTo: yellow
+colorFrom: blue
+colorTo: purple
 sdk: streamlit
 sdk_version: 1.19.0
 app_file: streamlit_app.py
