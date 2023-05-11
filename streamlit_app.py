@@ -7,6 +7,7 @@ import streamlit as st
 from pandas.api.types import is_bool_dtype, is_datetime64_any_dtype, is_numeric_dtype
 
 GITHUB_URL = "https://github.com/LudwigStumpp/llm-leaderboard"
+NON_BENCHMARK_COLS = ["Open?", "Publisher"]
 
 
 def extract_table_and_format_from_markdown_text(markdown_table: str) -> pd.DataFrame:
@@ -208,13 +209,13 @@ def setup_leaderboard(readme: str):
     leaderboard_table = extract_markdown_table_from_multiline(readme, table_headline="## Leaderboard")
     leaderboard_table = remove_markdown_links(leaderboard_table)
     df_leaderboard = extract_table_and_format_from_markdown_text(leaderboard_table)
-    df_leaderboard["Commercial Use?"] = df_leaderboard["Commercial Use?"].map({"yes": 1, "no": 0}).astype(bool)
+    df_leaderboard["Open?"] = df_leaderboard["Open?"].map({"yes": 1, "no": 0}).astype(bool)
 
     st.markdown("## Leaderboard")
     modify = st.checkbox("Add filters")
     if modify:
         df_leaderboard = filter_dataframe_by_row_and_columns(
-            df_leaderboard, ignore_columns=["Commercial Use?", "Publisher"]
+            df_leaderboard, ignore_columns=NON_BENCHMARK_COLS
         )
         df_leaderboard = filter_dataframe_by_column_values(df_leaderboard)
 
