@@ -201,7 +201,8 @@ def setup_basic():
 
     st.markdown(
         "A joint community effort to create one central leaderboard for LLMs."
-        f" Visit [llm-leaderboard]({GITHUB_URL}) to contribute.",
+        f" Visit [llm-leaderboard]({GITHUB_URL}) to contribute.  \n"
+        'We refer to a model being "open" if it can be locally deployed and used for commercial purposes.'
     )
 
 
@@ -214,9 +215,7 @@ def setup_leaderboard(readme: str):
     st.markdown("## Leaderboard")
     modify = st.checkbox("Add filters")
     if modify:
-        df_leaderboard = filter_dataframe_by_row_and_columns(
-            df_leaderboard, ignore_columns=NON_BENCHMARK_COLS
-        )
+        df_leaderboard = filter_dataframe_by_row_and_columns(df_leaderboard, ignore_columns=NON_BENCHMARK_COLS)
         df_leaderboard = filter_dataframe_by_column_values(df_leaderboard)
 
     df_leaderboard = df_leaderboard.dropna(axis=1, how="all")
