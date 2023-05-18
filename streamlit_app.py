@@ -214,15 +214,17 @@ def setup_leaderboard(readme: str):
 
     st.markdown("## Leaderboard")
     modify = st.checkbox("Add filters")
+    clear_empty_entries = st.checkbox("Clear empty entries", value=True)
+
     if modify:
         df_leaderboard = filter_dataframe_by_row_and_columns(df_leaderboard, ignore_columns=NON_BENCHMARK_COLS)
         df_leaderboard = filter_dataframe_by_column_values(df_leaderboard)
 
-    df_leaderboard = df_leaderboard.dropna(axis=1, how="all")
-
-    benchmark_columns = [c for c in df_leaderboard.columns if df_leaderboard[c].dtype == float]
-    rows_wo_any_benchmark = df_leaderboard[benchmark_columns].isna().all(axis=1)
-    df_leaderboard = df_leaderboard[~rows_wo_any_benchmark]
+    if clear_empty_entries:
+        df_leaderboard = df_leaderboard.dropna(axis=1, how="all")
+        benchmark_columns = [c for c in df_leaderboard.columns if df_leaderboard[c].dtype == float]
+        rows_wo_any_benchmark = df_leaderboard[benchmark_columns].isna().all(axis=1)
+        df_leaderboard = df_leaderboard[~rows_wo_any_benchmark]
 
     st.dataframe(df_leaderboard)
 
