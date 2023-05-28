@@ -275,6 +275,7 @@ def setup_sources():
     - [lmsys.org - Chatbot Arena benchmarks](https://lmsys.org/blog/2023-05-03-arena/)
     - [Papers With Code](https://paperswithcode.com/)
     - [Stanford HELM](https://crfm.stanford.edu/helm/latest/)
+    - [HF Open LLM Leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard)
     """
     )
 
