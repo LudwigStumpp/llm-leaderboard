@@ -8,6 +8,7 @@ readme = "README.md"
 python = "^3.10"
 pandas = "^2.2.2"
 streamlit = "^1.37.1"
+numpy = "1.26.4"
 
 [build-system]
 requires = ["poetry-core"]
