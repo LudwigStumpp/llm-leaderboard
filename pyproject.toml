@@ -1,0 +1,14 @@
+[tool.poetry]
+package-mode = false
+description = ""
+authors = ["Ludwig Stumpp <42147848+LudwigStumpp@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.2.2"
+streamlit = "^1.37.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
