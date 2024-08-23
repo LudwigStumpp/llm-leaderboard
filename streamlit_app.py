@@ -4,7 +4,8 @@ from collections.abc import Iterable
 
 import pandas as pd
 import streamlit as st
-from pandas.api.types import is_bool_dtype, is_datetime64_any_dtype, is_numeric_dtype
+from pandas.api.types import (is_bool_dtype, is_datetime64_any_dtype,
+                              is_numeric_dtype)
 
 GITHUB_URL = "https://github.com/LudwigStumpp/llm-leaderboard"
 NON_BENCHMARK_COLS = ["Open?", "Publisher"]
@@ -22,11 +23,13 @@ def extract_table_and_format_from_markdown_text(markdown_table: str) -> pd.DataF
     df = (
         pd.read_table(io.StringIO(markdown_table), sep="|", header=0, index_col=1)
         .dropna(axis=1, how="all")  # drop empty columns
-        .iloc[1:]  # drop first row which is the "----" separator of the original markdown table
+        .iloc[
+            1:
+        ]  # drop first row which is the "----" separator of the original markdown table
         .sort_index(ascending=True)
         .apply(lambda x: x.str.strip() if x.dtype == "object" else x)
         .replace("", float("NaN"))
-        .astype(float, errors="ignore")
+        .apply(pd.to_numeric, errors="ignore")
     )
 
     # remove whitespace from column names and index
@@ -37,7 +40,9 @@ def extract_table_and_format_from_markdown_text(markdown_table: str) -> pd.DataF
     return df
 
 
-def extract_markdown_table_from_multiline(multiline: str, table_headline: str, next_headline_start: str = "#") -> str:
+def extract_markdown_table_from_multiline(
+    multiline: str, table_headline: str, next_headline_start: str = "#"
+) -> str:
     """Extracts the markdown table from a multiline string.
 
     Args:
@@ -89,7 +94,9 @@ def remove_markdown_links(text: str) -> str:
     return text
 
 
-def filter_dataframe_by_row_and_columns(df: pd.DataFrame, ignore_columns: list[str] | None = None) -> pd.DataFrame:
+def filter_dataframe_by_row_and_columns(
+    df: pd.DataFrame, ignore_columns: list[str] | None = None
+) -> pd.DataFrame:
     """
     Filter dataframe by the rows and columns to display.
 
@@ -116,7 +123,8 @@ def filter_dataframe_by_row_and_columns(df: pd.DataFrame, ignore_columns: list[s
             df = pd.DataFrame(df.loc[to_filter_index])
 
         to_filter_columns = st.multiselect(
-            "Filter by benchmark:", sorted([c for c in df.columns if c not in ignore_columns])
+            "Filter by benchmark:",
+            sorted([c for c in df.columns if c not in ignore_columns]),
         )
         if to_filter_columns:
             df = pd.DataFrame(df[ignore_columns + to_filter_columns])
@@ -173,7 +181,9 @@ def filter_dataframe_by_column_values(df: pd.DataFrame) -> pd.DataFrame:
                     ),
                 )
                 if isinstance(user_date_input, Iterable) and len(user_date_input) == 2:
-                    user_date_input_datetime = tuple(map(pd.to_datetime, user_date_input))
+                    user_date_input_datetime = tuple(
+                        map(pd.to_datetime, user_date_input)
+                    )
                     start_date, end_date = user_date_input_datetime
                     df = df.loc[df[column].between(start_date, end_date)]
 
@@ -207,22 +217,30 @@ def setup_basic():
 
 
 def setup_leaderboard(readme: str):
-    leaderboard_table = extract_markdown_table_from_multiline(readme, table_headline="## Leaderboard")
+    leaderboard_table = extract_markdown_table_from_multiline(
+        readme, table_headline="## Leaderboard"
+    )
     leaderboard_table = remove_markdown_links(leaderboard_table)
     df_leaderboard = extract_table_and_format_from_markdown_text(leaderboard_table)
-    df_leaderboard["Open?"] = df_leaderboard["Open?"].map({"yes": 1, "no": 0}).astype(bool)
+    df_leaderboard["Open?"] = (
+        df_leaderboard["Open?"].map({"yes": 1, "no": 0}).astype(bool)
+    )
 
     st.markdown("## Leaderboard")
     modify = st.checkbox("Add filters")
     clear_empty_entries = st.checkbox("Clear empty entries", value=True)
 
     if modify:
-        df_leaderboard = filter_dataframe_by_row_and_columns(df_leaderboard, ignore_columns=NON_BENCHMARK_COLS)
+        df_leaderboard = filter_dataframe_by_row_and_columns(
+            df_leaderboard, ignore_columns=NON_BENCHMARK_COLS
+        )
         df_leaderboard = filter_dataframe_by_column_values(df_leaderboard)
 
     if clear_empty_entries:
         df_leaderboard = df_leaderboard.dropna(axis=1, how="all")
-        benchmark_columns = [c for c in df_leaderboard.columns if df_leaderboard[c].dtype == float]
+        benchmark_columns = [
+            c for c in df_leaderboard.columns if df_leaderboard[c].dtype == float
+        ]
         rows_wo_any_benchmark = df_leaderboard[benchmark_columns].isna().all(axis=1)
         df_leaderboard = df_leaderboard[~rows_wo_any_benchmark]
 
@@ -246,12 +264,16 @@ def setup_leaderboard(readme: str):
 
 
 def setup_benchmarks(readme: str):
-    benchmarks_table = extract_markdown_table_from_multiline(readme, table_headline="## Benchmarks")
+    benchmarks_table = extract_markdown_table_from_multiline(
+        readme, table_headline="## Benchmarks"
+    )
     df_benchmarks = extract_table_and_format_from_markdown_text(benchmarks_table)
 
     st.markdown("## Covered Benchmarks")
 
-    selected_benchmark = st.selectbox("Select a benchmark to learn more:", df_benchmarks.index.unique())
+    selected_benchmark = st.selectbox(
+        "Select a benchmark to learn more:", df_benchmarks.index.unique()
+    )
     df_selected = df_benchmarks.loc[selected_benchmark]
     text = [
         f"Name: {selected_benchmark}",
